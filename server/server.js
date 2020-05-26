@@ -5,6 +5,9 @@ const fs = require("fs"); // fs = FILE SYSTEM
 
 const app = express();
 
+// Middleware para rutas a recursos estáticos
+app.use(express.static(path.join(__dirname, "../client")));
+
 
 app.use(bodyParser.json());
 
@@ -88,10 +91,9 @@ app.get("/phrases", (req, res) => {
     if(req.query.keyword) {
       res.json(phrasesList.filter(phrases => phrases.includes(req.query.keyword)).slice(0,5));
     } else {
-      res.json(phrasesList)
+      res.json(phrasesList.slice(0,5))
     }
   });
-
 
 });
 
@@ -99,12 +101,9 @@ app.listen(4000, () => {
   console.log("Server iniciado en puerto 4000...")
 });
 
-
 function getPhrasesList(resultCallback) {
 
   fs.readFile(path.join(__dirname, "phrases.json"), "utf8", (err, data) => {
-
-    console.log("Entré al callback de readFile");
 
     if (err) {
       console.log("No se pudo leer el archivo.");
