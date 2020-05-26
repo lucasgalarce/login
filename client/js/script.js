@@ -15,13 +15,15 @@ SearchPhrases.addEventListener('keyup', () => {
             list.innerHTML = "";
             // Recorro el array de frases
             data.forEach(phrase => {
-
+                // A la frase le saco los "input" que coincidan para agregarlos despues
                 let arr = phrase.split(SearchPhrases.value);
-
+                // Si el input esta vacio, limpio la lista
                 if (SearchPhrases.value === '') {
                     list.innerHTML = "";
-                } else {
+                }
+                else {
                     const newLi = document.createElement('li');
+                    // Agrego el input sacado previamente agregandole la etiqueta strong
                     newLi.innerHTML = `${arr.join(`<strong>${SearchPhrases.value}</strong>`)}`
 
                     list.appendChild(newLi);
