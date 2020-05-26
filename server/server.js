@@ -1,8 +1,10 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const path = require("path");
+const fs = require("fs"); // fs = FILE SYSTEM
 
 const app = express();
+
 
 app.use(bodyParser.json());
 
@@ -26,6 +28,7 @@ app.get("/home", (req, res) => {
   res.sendFile(path.join(__dirname, "../client/home.html"));
 });
 
+
 // POST /register - Registrar usuarix
 app.post("/register", (req, res) => {
   console.log(req.body); // { username: 'admin', password: 'admin' }
@@ -36,7 +39,7 @@ app.post("/register", (req, res) => {
     return;
   }
   //Valido que la contraseña y la confirmacion de contraseña sean iguales
-  if(req.body.password !== req.body.confirmPassword){
+  if (req.body.password !== req.body.confirmPassword) {
     res.status(400).send("No coinciden las contraseñas.");
     return;
   }
@@ -79,6 +82,36 @@ app.post("/login", (req, res) => {
 
 });
 
+app.get("/phrases", (req, res) => {
+
+  getPhrasesList(function (phrasesList) {
+    if(req.query.keyword) {
+      res.json(phrasesList.filter(phrases => phrases.includes(req.query.keyword)).slice(0,5));
+    } else {
+      res.json(phrasesList)
+    }
+  });
+
+
+});
+
 app.listen(4000, () => {
   console.log("Server iniciado en puerto 4000...")
 });
+
+
+function getPhrasesList(resultCallback) {
+
+  fs.readFile(path.join(__dirname, "phrases.json"), "utf8", (err, data) => {
+
+    console.log("Entré al callback de readFile");
+
+    if (err) {
+      console.log("No se pudo leer el archivo.");
+      resultCallback([]);
+    } else {
+      resultCallback(JSON.parse(data));
+    }
+  });
+
+}
