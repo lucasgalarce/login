@@ -4,9 +4,8 @@ const list = document.getElementById('list');
 SearchPhrases.addEventListener('keyup', () => {
     let url = "/phrases";
     const xhr = new XMLHttpRequest();
-    
+
     url = "/phrases" + "?keyword=" + SearchPhrases.value;
-    console.log(url);
 
     xhr.addEventListener('load', function () {
         if (this.status == 200) {
@@ -16,12 +15,17 @@ SearchPhrases.addEventListener('keyup', () => {
             list.innerHTML = "";
             // Recorro el array de frases
             data.forEach(phrase => {
-                console.log(phrase)
 
-                const newLi = document.createElement('li');
-                newLi.textContent = phrase;
+                let arr = phrase.split(SearchPhrases.value);
 
-                list.appendChild(newLi);
+                if (SearchPhrases.value === '') {
+                    list.innerHTML = "";
+                } else {
+                    const newLi = document.createElement('li');
+                    newLi.innerHTML = `${arr.join(`<strong>${SearchPhrases.value}</strong>`)}`
+
+                    list.appendChild(newLi);
+                }
             });
         }
     });
