@@ -11,7 +11,12 @@ app.use(express.static(path.join(__dirname, "../client")));
 
 app.use(bodyParser.json());
 
-let userList = [];
+let userList = [
+  {
+    username: "admin",
+    password: "admin"
+  }
+];
 
 // GET de página inicial
 app.get("/", (req, res) => {
@@ -80,7 +85,7 @@ app.post("/login", (req, res) => {
   if (userList.filter(user => user.username === req.body.username && user.password === req.body.password).length > 0) {
     res.status(200).send();
   } else {
-    res.status(403).send();
+    res.status(403).send("Datos incorrectos.");
   }
 
 });
@@ -88,10 +93,10 @@ app.post("/login", (req, res) => {
 app.get("/phrases", (req, res) => {
 
   getPhrasesList(function (phrasesList) {
-    if(req.query.keyword) {
-      res.json(phrasesList.filter(phrases => phrases.includes(req.query.keyword)).slice(0,5));
+    if (req.query.keyword) {
+      res.json(phrasesList.filter(phrases => phrases.includes(req.query.keyword)).slice(0, 5));
     } else {
-      res.json(phrasesList.slice(0,5))
+      res.json(phrasesList.slice(0, 5))
     }
   });
 
