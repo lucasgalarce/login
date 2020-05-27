@@ -15,6 +15,9 @@ SearchPhrases.addEventListener('keyup', () => {
             list.innerHTML = "";
             // Recorro el array de frases
             data.forEach(phrase => {
+                // Guardo la frase original
+                let originalPhrase = phrase;
+
                 // A la frase le saco los "input" que coincidan para agregarlos despues
                 let arr = phrase.split(SearchPhrases.value);
 
@@ -29,12 +32,11 @@ SearchPhrases.addEventListener('keyup', () => {
 
                     // Agrego el evento click al li
                     newLi.addEventListener('click', function () {
-                        // Le saco la etiqueta strong y lo pongo en el input value
-                        let newValue = newLi.innerHTML.split(`<strong>`).join("");
-                        SearchPhrases.value = newValue.split(`</strong>`).join("");
+                        // Pongo la frase original en el input value
+                        SearchPhrases.value = originalPhrase
 
                         // Limpio la lista de li y dejo el li clickeado
-                        list.innerHTML = `<strong> ${this.innerHTML} </strong>`;
+                        list.innerHTML = `<strong> ${originalPhrase} </strong>`;
                     });
 
                     list.appendChild(newLi);

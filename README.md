@@ -1,5 +1,6 @@
-# login
-Login y register
+# Login, register y busqueda de frases
+#Usuario: admin
+#Contraseña: admin
 
 Ejercicio de comit:
 1-Modificar la página de registro agregando un 2do input tipo "password" que sea para confirmar la clave creada. Validar que las dos claves sean iguales para procesar el registro. Que la validación se haga en el servidor (ahora la API /register tendrá que recibir los 3 datos: usuario, clave, confirmación de clave) y si no cumplen la condición de ser iguales, retorne un mensaje indicando eso, con status code 400 o 409 (a gusto). Ese mensaje se debería ver en la pantalla del cliente para que corrija.
